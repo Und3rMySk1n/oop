@@ -1,0 +1,3 @@
+Hello there! I'm file to copy me.
+And I have more than one string.
+It's great, don't you think so? :)
