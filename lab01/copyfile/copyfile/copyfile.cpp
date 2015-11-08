@@ -10,7 +10,7 @@ enum status
 	OK, INPUT_FILE_NOT_OPENED, OUTPUT_FILE_NOT_WRITTEN, READ_ERROR
 };
 
-bool copyInputFileToOutputFile(string inputFileName, string outputFileName, status &statusCode)
+bool copyInputFileToOutputFile(const string &inputFileName, const string &outputFileName, status &statusCode)
 {
 	ifstream inputFile(inputFileName);
 	if (!inputFile.is_open())
@@ -37,6 +37,12 @@ bool copyInputFileToOutputFile(string inputFileName, string outputFileName, stat
 		else
 		{
 			outputFile << lineToWrite << endl;
+			outputFile.flush();
+			if (!outputFile.is_open())
+			{
+				statusCode = OUTPUT_FILE_NOT_WRITTEN;
+				return false;
+			}
 		}
 	}	
 
