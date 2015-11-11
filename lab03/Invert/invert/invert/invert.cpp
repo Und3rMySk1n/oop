@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <stdio.h>
 #include <string>
 #include <fstream>
@@ -29,6 +30,32 @@ void printError(status &statusCode)
 		{
 			cout << "Wrong matrix. Determinant is 0." << endl;
 		}
+	}
+}
+
+void printSquareMatrix(vector<vector<int>> &matrixToPrint, const int &matrixSize)
+{
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			cout << "[" << i << "][" << j << "] = " << matrixToPrint[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void printSquareMatrixTypeDouble(vector<vector<double>> &matrixToPrint, const int &matrixSize)
+{
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			cout << "[" << i << "][" << j << "] = ";
+			cout << setprecision(3) << matrixToPrint[i][j];
+			cout << " ";
+		}
+		cout << endl;
 	}
 }
 
@@ -64,7 +91,7 @@ vector<vector<int>> FindRestOfMatrix(vector<vector<int>> &matrixToFindRest, int 
 				if (n == restMatrixSize)
 				{
 					n = 0;
-					m++;					
+					m++;
 				}
 			}
 		}
@@ -80,13 +107,13 @@ int FindDeterminantForMatrixThreeOnThree(vector<vector<int>> &matrixThreeOnThree
 	int summarySign = 1;
 
 	for (int thisColumn = 0; thisColumn < 3; thisColumn++)
-	{			
-		vector<vector<int>> matrixTwoOnTwo(2, vector<int>(2)); 
-		matrixTwoOnTwo = FindRestOfMatrix(matrixThreeOnThree, 3, thisString, thisColumn);		
+	{
+		vector<vector<int>> matrixTwoOnTwo(2, vector<int>(2));
+		matrixTwoOnTwo = FindRestOfMatrix(matrixThreeOnThree, 3, thisString, thisColumn);
 
 		determinant += matrixThreeOnThree[thisString][thisColumn] * FindDeterminantForMatrixTwoOnTwo(matrixTwoOnTwo) * summarySign;
 		summarySign = summarySign * (-1);
-	}	
+	}
 
 	return determinant;
 }
@@ -109,16 +136,82 @@ void defineSingleOneMatrix(vector<vector<int>> &matrixToDefine, const int &matri
 	}
 }
 
-void printSquareMatrix(vector<vector<int>> &matrixToPrint, const int &matrixSize)
+vector<vector<int>> FindMinorMatrix(vector<vector<int>> &matrixToFindMinor, const int &matrixSize)
 {
+	int smallMatrixSize = matrixSize - 1;
+	vector<vector<int>> smallMatrix(smallMatrixSize, vector<int>(smallMatrixSize));
+	vector<vector<int>> minorMatrix(matrixSize, vector<int>(matrixSize));
+
 	for (int i = 0; i < matrixSize; i++)
 	{
 		for (int j = 0; j < matrixSize; j++)
 		{
-			cout << "[" << i << "][" << j << "] = " << matrixToPrint[i][j] << " ";
+			smallMatrix = FindRestOfMatrix(matrixToFindMinor, matrixSize, i, j);
+			minorMatrix[i][j] = FindDeterminantForMatrixTwoOnTwo(smallMatrix);
 		}
-		cout << endl;
 	}
+
+	return minorMatrix;
+}
+
+vector<vector<int>> FindAdditionMatrix(vector<vector<int>> &matrixToFindAddition, const int &matrixSize)
+{
+	vector<vector<int>> additionMatrix(matrixSize, vector<int>(matrixSize));
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			if ((i + j) % 2)
+			{
+				additionMatrix[i][j] = (-1) * matrixToFindAddition[i][j];
+			}
+			else
+			{
+				additionMatrix[i][j] = matrixToFindAddition[i][j];
+			}
+		}
+	}
+
+	return additionMatrix;
+}
+
+vector<vector<int>> FindTransposedMatrix(vector<vector<int>> &matrixToTranspose, const int &matrixSize)
+{
+	vector<vector<int>> transposedMatrix(matrixSize, vector<int>(matrixSize));
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			transposedMatrix[i][j] = matrixToTranspose[j][i];
+		}
+	}
+
+	return transposedMatrix;
+}
+
+vector<vector<double>> FindInverseMatrix(vector<vector<int>> &matrixToInvert, const int &matrixSize, const int &determinant)
+{
+	vector<vector<int>> minorMatrix(matrixSize, vector<int>(matrixSize));
+	minorMatrix = FindMinorMatrix(matrixToInvert, matrixSize);
+
+	vector<vector<int>> additionMatrix(matrixSize, vector<int>(matrixSize));
+	additionMatrix = FindAdditionMatrix(minorMatrix, matrixSize);
+
+	vector<vector<int>> transposedMatrix(matrixSize, vector<int>(matrixSize));
+	transposedMatrix = FindTransposedMatrix(additionMatrix, matrixSize);
+
+	vector<vector<double>> inverseMatrix(matrixSize, vector<double>(matrixSize));
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			inverseMatrix[i][j] = ((double)transposedMatrix[i][j]) / (double)determinant;
+		}
+	}
+
+	return inverseMatrix;
 }
 
 bool invertMatrix(const string &inputFileName, status &statusCode, const int &matrixSize)
@@ -131,7 +224,7 @@ bool invertMatrix(const string &inputFileName, status &statusCode, const int &ma
 	}
 
 	vector<vector<int>> matrix(matrixSize, vector<int>(matrixSize));
-	vector<vector<int>> singleOneMatrix(matrixSize, vector<int>(matrixSize));
+	vector<vector<int>> singleOneMatrix(matrixSize, vector<int>(matrixSize));	
 	defineSingleOneMatrix(singleOneMatrix, matrixSize);	
 	
 	while (!inputFile.eof())
@@ -164,10 +257,12 @@ bool invertMatrix(const string &inputFileName, status &statusCode, const int &ma
 				}
 			}
 		}
-	}
+	}	
 
+	cout << "Original matrix: " << endl;
 	printSquareMatrix(matrix, matrixSize);
 	cout << endl;
+
 	int determinant = FindDeterminantForMatrixThreeOnThree(matrix);
 	if (determinant == 0)
 	{
@@ -176,7 +271,12 @@ bool invertMatrix(const string &inputFileName, status &statusCode, const int &ma
 	}
 	else
 	{
-		cout << "Determinant is: " << determinant << endl;
+		vector<vector<double>> inverseMatrix(matrixSize, vector<double>(matrixSize));
+		inverseMatrix = FindInverseMatrix(matrix, matrixSize, determinant);
+
+		cout << "Inverse matrix: " << endl;
+		printSquareMatrixTypeDouble(inverseMatrix, matrixSize);
+		cout << endl;
 	}
 
 	return true;
