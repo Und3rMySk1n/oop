@@ -1,40 +1,52 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <limits>
 
 using namespace std;
 
-string TurnToReversedBinary(int NumberToFlip, const int &blockSize)
-{	
-	char rest;	
-	string binaryNumberInString = "";
-	for (int i = 0; i < blockSize; i++)
-	{		 
-		rest = NumberToFlip % 2;
-		NumberToFlip = NumberToFlip / 2;
-		rest = rest + '0';
-		binaryNumberInString += rest;
+
+enum status
+{
+	OK, ERROR
+};
+
+int GetNumberFromString(char *inputNumberString, status &statusCode)
+{
+	char *endOfString = NULL;
+	int numberToFlip = strtol(inputNumberString, &endOfString, 10);
+	if (*endOfString != NULL)
+	{
+		cout << "You should enter a number without letters." << endl;
+		statusCode = ERROR;
+		return 0;
+	}
+	else if ((numberToFlip < 0) || (numberToFlip > 255))
+	{
+		cout << "The number must be from 0 to 255." << endl;
+		statusCode = ERROR;
+		return 0;
 	}
 
-	return binaryNumberInString;
+	return numberToFlip;
 }
 
-int TurnToDecimal(string flippedBinaryNumber)
-{
-	int resultNumber = 0;
-	int power = 0;
-	int sizeOfString = flippedBinaryNumber.length();
-	for (int i = sizeOfString - 1; i >= 0; i--)
+int FlipByte(int numberToFlip, int bitsNumber) //std::numeric_limits<number>::digits - for bits number
+{	
+	int flippedNumber = 0;
+
+	for (int i = 0; i < bitsNumber; i++)
 	{
-		if (flippedBinaryNumber[i] == '1')
-		{
-			resultNumber = resultNumber + pow(2, power);
-		}
+		int bit = 1 << i;
+		bit = bit & numberToFlip;
+		
+		int shift = (bitsNumber - 1) - (2 * i);
+		bit = (shift > 0) ? bit << shift : bit >> shift * (-1);	
 
-		++power;
-	}
+		flippedNumber = flippedNumber | bit;
+	}  
 
-	return resultNumber;
+	return flippedNumber;
 }
 
 int main(int argc, char* argv[])
@@ -49,23 +61,20 @@ int main(int argc, char* argv[])
 		cout << "This program flips byte: it reverses binary presence of entered number." << endl;	
 	}
 	
-	char *endOfString = NULL;
-	int NumberToFlip = strtol(argv[1], &endOfString, 10);
-	if (*endOfString != NULL)
+	char *inputNumberString = argv[1];
+	const int bitsNumber = 8;
+	status statusCode = OK;
+
+	int numberToFlip = GetNumberFromString(inputNumberString, statusCode);
+	if (statusCode == OK)
 	{
-		cout << "You should enter a number without letters." << endl;
+		int flippedNumber = FlipByte(numberToFlip, bitsNumber);
+		cout << flippedNumber << endl;
+	}
+	else
+	{
 		return 1;
 	}
-	else if ((NumberToFlip < 0) || (NumberToFlip > 255))
-	{
-		cout << "The number must be from 0 to 255." << endl;
-		return 1;
-	}
-
-	const int blocksize = 8;
-	string flippedBinaryNumber = TurnToReversedBinary(NumberToFlip, blocksize);
-	int flippedNumber = TurnToDecimal(flippedBinaryNumber);
-
-	cout << "Flipped number is: " << flippedNumber << endl;
+	
 	return 0;
 }
