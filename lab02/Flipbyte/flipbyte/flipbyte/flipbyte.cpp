@@ -31,7 +31,7 @@ int GetNumberFromString(char *inputNumberString, status &statusCode)
 	return numberToFlip;
 }
 
-int FlipByte(int numberToFlip, int bitsNumber) //std::numeric_limits<number>::digits - for bits number
+int FlipByte(int numberToFlip, int bitsNumber)
 {	
 	int flippedNumber = 0;
 
