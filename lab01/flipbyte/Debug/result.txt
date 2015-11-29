@@ -1,0 +1,2 @@
+This program flips byte: it reverses binary presence of entered number.
+Flipped number is: 96
