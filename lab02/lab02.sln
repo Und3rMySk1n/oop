@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationTests", "Applica
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLEncode", "HTMLEncode\HTMLEncode.vcxproj", "{453ED194-DE5D-4521-A62B-282B68362C20}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dictionary", "Dictionary\Dictionary.vcxproj", "{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{453ED194-DE5D-4521-A62B-282B68362C20}.Debug|Win32.Build.0 = Debug|Win32
 		{453ED194-DE5D-4521-A62B-282B68362C20}.Release|Win32.ActiveCfg = Release|Win32
 		{453ED194-DE5D-4521-A62B-282B68362C20}.Release|Win32.Build.0 = Release|Win32
+		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Debug|Win32.Build.0 = Debug|Win32
+		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Release|Win32.ActiveCfg = Release|Win32
+		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
