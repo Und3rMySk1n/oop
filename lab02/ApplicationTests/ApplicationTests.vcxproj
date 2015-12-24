@@ -88,15 +88,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Dictionary\DictionaryUtils.h" />
     <ClInclude Include="..\HTMLEncode\HTMLUtils.h" />
     <ClInclude Include="..\TransformArray\TransformUtils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Dictionary\DictionaryUtils.cpp" />
     <ClCompile Include="..\HTMLEncode\HTMLUtils.cpp" />
     <ClCompile Include="..\TransformArray\TransformUtils.cpp" />
     <ClCompile Include="ApplicationTests.cpp" />
+    <ClCompile Include="DictionaryUtilsTests.cpp" />
     <ClCompile Include="HTMLUtilsTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
