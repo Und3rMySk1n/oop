@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 		translation = GetTranslation(dictionary, word);
 		if (translation != "")
 		{
-			std::cout << "Translation: " << dictionary[word] << std::endl;
+			std::cout << "Translation: " << translation << std::endl;
 		}
 		else if (word != "...")
 		{
