@@ -50,11 +50,11 @@ int main(int argc, char *argv[])
 	std::string word, translation, temp;
 	AddTranslation(dictionary, "window", "окно");
 
-
 	while (word != "...")
 	{
 		std::getline(std::cin, word);
-		if (dictionary[word] != "")
+		translation = GetTranslation(dictionary, word);
+		if (translation != "")
 		{
 			std::cout << "Translation: " << dictionary[word] << std::endl;
 		}
@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
 	}
 
 	std::cout << "Good bye!" << std::endl;
-
 
 	return 0;
 }
