@@ -5,7 +5,7 @@ class CCar
 public:
 	enum class Gear
 	{
-		rear = -1,
+		reverse = -1,
 		neutral = 0,
 		first = 1,
 		second = 2,
@@ -14,9 +14,20 @@ public:
 		fifth = 5
 	};
 
-	bool IsEngineOn()const;
-	Gear GetGear()const;
-	int GetSpeed()const;
+	enum class Direction
+	{
+		backward = -1,
+		stop = 0,
+		forward = 1
+	};
+
+	bool IsEngineOn() const;
+	Gear GetGear() const;
+	int GetSpeed() const;
+	Direction GetDirection() const;
+
+	bool TurnOnEngine();
+	bool TurnOffEngine();
 private:
 	bool m_engineIsOn = false;
 	Gear m_gear = Gear::neutral;
