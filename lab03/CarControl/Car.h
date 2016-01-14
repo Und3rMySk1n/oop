@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 class CCar
 {
 public:
@@ -21,6 +23,13 @@ public:
 		forward = 1
 	};
 
+	struct allowedSpeedRange
+	{
+		int minSpeed, maxSpeed;
+	};
+
+	static const std::map<Gear, allowedSpeedRange> gearSpeedRange;
+
 	bool IsEngineOn() const;
 	Gear GetGear() const;
 	int GetSpeed() const;
@@ -28,8 +37,12 @@ public:
 
 	bool TurnOnEngine();
 	bool TurnOffEngine();
+	bool SetGear(Gear newGear);
+	bool SetSpeed(int newSpeed);	
 private:
 	bool m_engineIsOn = false;
 	Gear m_gear = Gear::neutral;
 	int m_speed = 0;
+	Direction m_direction = Direction::stop;
+	bool IsSpeedAllowedForGear(int speed, Gear gear);
 };
