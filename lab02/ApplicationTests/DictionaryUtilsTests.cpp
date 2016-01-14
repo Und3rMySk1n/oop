@@ -2,42 +2,64 @@
 #include "../Dictionary/DictionaryUtils.h"
 #include <string>
 
-BOOST_AUTO_TEST_SUITE(dictionary_tests)
+using namespace std;
+
+struct DictionaryFixture
+{
+	map<string, string> testDictionary;
+};
+
+// словарь
+BOOST_FIXTURE_TEST_SUITE(dictionary_tests, DictionaryFixture)
     
     // возвращает пустую строку, если словарь пустой
 	BOOST_AUTO_TEST_CASE(returns_empty_string_if_dictionary_is_empty)
-	{
-		std::map<std::string, std::string> testDictionary;
-		std::string sampleString = "Test";
-		std::string resultString = GetTranslation(testDictionary, sampleString);
-
-		BOOST_CHECK_EQUAL(resultString, "");
+	{					
+		string resultString = GetTranslation(testDictionary, "Test");
+		BOOST_CHECK_EQUAL(resultString, "");		
 	}
 
-	// возвращает перевод, если слово есть в словаре
-	BOOST_AUTO_TEST_CASE(returns_translation_if_word_is_in_dictionary)
+	// не меняет состав словаря при обращении
+	BOOST_AUTO_TEST_CASE(does_not_change_dictionary_on_request)
 	{
-		std::map<std::string, std::string> testDictionary;
-		testDictionary.insert(std::pair<std::string, std::string>("cat", "кошка"));
-
-		std::string sampleString = "cat";
-		std::string resultString = GetTranslation(testDictionary, sampleString);
-
-		BOOST_CHECK_EQUAL(resultString, "кошка");
+		string resultString = GetTranslation(testDictionary, "Test string");
+		BOOST_CHECK(testDictionary.empty());
 	}
 
 	// добавляет в словарь слово с переводом
 	BOOST_AUTO_TEST_CASE(adds_word_and_translation_in_dictionary)
 	{
-		std::map<std::string, std::string> testDictionary;		
+		AddTranslation(testDictionary, "duck", "утка");
+		BOOST_CHECK(!testDictionary.empty());
 
-		std::string word = "duck";
-		std::string translate = "утка";
-		AddTranslation(testDictionary, word, translate);
-
-		std::string resultString = GetTranslation(testDictionary, "duck");
-
+		string resultString = GetTranslation(testDictionary, "duck");
 		BOOST_CHECK_EQUAL(resultString, "утка");
-	}
+	}	
+
+		struct dictionary_with_word_ : DictionaryFixture
+		{
+			dictionary_with_word_()
+			{
+				AddTranslation(testDictionary, "dog", "собака");
+			}
+		};
+
+		// словарь с переводом
+		BOOST_FIXTURE_TEST_SUITE(dictionary_with_word, dictionary_with_word_)
+
+			// непустой
+			BOOST_AUTO_TEST_CASE(not_empty)
+			{
+				BOOST_CHECK(!testDictionary.empty());
+			}
+			
+			// возвращает перевод слова
+			BOOST_AUTO_TEST_CASE(returns_translation)
+			{				
+				string resultString = GetTranslation(testDictionary, "dog");
+				BOOST_CHECK_EQUAL(resultString, "собака");
+			}
+
+		BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

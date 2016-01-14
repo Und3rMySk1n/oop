@@ -1,4 +1,7 @@
+book:книга
 cat:кошка
 dog:собака
+gun:пушка
+magazine:журнал
+window:окно
 word:слово
-book:книга

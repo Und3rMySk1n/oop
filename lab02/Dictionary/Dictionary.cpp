@@ -8,69 +8,98 @@
 #include <map>
 #include <fstream>
 #include "DictionaryUtils.h"
+#include <windows.h>
 
-enum statusCode
-{
-	OK, INPUT_FILE_NOT_OPENED, OUTPUT_FILE_NOT_WRITTEN
-};
-
-bool InitializeDictionaryFile(std::string inputFileName, statusCode &status)
-{
-	std::ifstream dictionaryFile(inputFileName);
-	if (!dictionaryFile.is_open())
-	{
-		status = INPUT_FILE_NOT_OPENED;
-		return false;
-	}
-
-	return true;
-}
+using namespace std;
 
 int main(int argc, char *argv[])
 {
-	setlocale(LC_CTYPE, "Russian");	
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
 
-	std::map<std::string, std::string> dictionary;
-	statusCode status = OK;
+	map<string, string> dictionary;
+	bool dictionaryChanged = false;
 
 	if (argc == 2)
 	{
-		std::string fileName = argv[1];
-		std::ifstream dictionaryFile(fileName);
+		string fileName = argv[1];
+		ifstream dictionaryFile(fileName);
 
 		if (!dictionaryFile.is_open())
 		{
-			status = INPUT_FILE_NOT_OPENED;
+			cout << "Не удалось открыть файл словаря." << endl;
 			return 1;
 		}
 
 		ReadDictionaryFromFile(dictionaryFile, dictionary);
+		dictionaryFile.close();
 	}	
 	
-	std::string word, translation, temp;
-	AddTranslation(dictionary, "window", "окно");
+	string word, translation, temp;
 
 	while (word != "...")
 	{
-		std::getline(std::cin, word);
+		getline(cin, word);
 		translation = GetTranslation(dictionary, word);
 		if (translation != "")
 		{
-			std::cout << "Translation: " << translation << std::endl;
+			cout << "Translation: " << translation << endl;
 		}
 		else if (word != "...")
 		{
-			std::cout << "Неизвестное слово \"" << word 
-				      << "\" Введите перевод или пустую строку для отказа." << std::endl;
-			std::getline(std::cin, translation);
+			cout << "Неизвестное слово \"" << word 
+				      << "\" Введите перевод или пустую строку для отказа." << endl;
+			getline(cin, translation);
 			if (translation != "")
 			{
 				AddTranslation(dictionary, word, translation);
+				cout << "Слово \"" << word << "\" сохранено в словаре как \"" 
+					 << translation  << "\"." << endl;
+
+				if (dictionaryChanged == false)
+				{
+					dictionaryChanged = true;
+				}
+			}
+			else
+			{
+				cout << "Слово \"" << word << "\" проигнорировано" << endl;
 			}
 		}		
 	}
 
-	std::cout << "Good bye!" << std::endl;
+	if (dictionaryChanged)
+	{
+		cout << "В словарь были внесены изменения." << endl 
+			 << "Введите 'Y' или 'y' для сохранения перед выходом." << endl;
+
+		string answer;
+		getline(cin, answer);
+
+		if ((answer == "Y") || (answer == "y"))
+		{
+			string outputFileName;
+			if (argc == 2)
+			{
+				outputFileName = argv[1];
+			}
+			else
+			{
+				cout << "Введите имя файла для нового словаря: " << endl;
+				getline(cin, outputFileName);
+			}
+
+			ofstream newDictionaryFile(outputFileName);
+			if (!newDictionaryFile.is_open())
+			{
+				cout << "Не удалось записать файл словаря." << endl;
+				return 1;
+			}
+
+			WriteDictionaryToFile(newDictionaryFile, dictionary);
+		}
+	}
+	cout << "Good bye!" << endl;
 
 	return 0;
 }

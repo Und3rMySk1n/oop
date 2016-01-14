@@ -1,32 +1,45 @@
 #include "stdafx.h"
 #include "DictionaryUtils.h"
 
-std::string GetTranslation(std::map<std::string, std::string> &dictionary, const std::string &word)
+using namespace std;
+
+string GetTranslation(map<string, string> &dictionary, const string &word)
 {
-	return dictionary[word];
+	auto it = dictionary.find(word);
+	return (it != dictionary.end()) ? it->second : "";
 }
 
-void AddTranslation(std::map<std::string, std::string> &dictionary, const std::string &word, const std::string &translation)
+void AddTranslation(map<string, std::string> &dictionary, const string &word, const string &translation)
 {
-	dictionary.insert(std::pair<std::string, std::string>(word, translation));
+	dictionary.emplace(word, translation);
 }
 
-bool ReadDictionaryFromFile(std::ifstream &dictionaryFile, std::map<std::string, std::string> &dictionary)
+bool ReadDictionaryFromFile(ifstream &dictionaryFile, map<string, string> &dictionary)
 {
-	std::string formattedString, word, translation;
+	string formattedString, word, translation;
 
 	while (!dictionaryFile.eof())
 	{
-		std::getline(dictionaryFile, formattedString);
+		getline(dictionaryFile, formattedString);
 		
-		std::size_t divider = formattedString.find(':');
-		if (divider != std::string::npos)
+		size_t divider = formattedString.find(':');
+		if (divider != string::npos)
 		{
 			word = formattedString.substr(0, divider);
-			translation = formattedString.substr(divider + 1, std::string::npos);
+			translation = formattedString.substr(divider + 1, string::npos);
 			
 			AddTranslation(dictionary, word, translation);
 		}
+	}
+
+	return true;
+}
+
+bool WriteDictionaryToFile(ofstream &dictionaryFile, map<string, string> const &dictionary)
+{
+	for (auto it = dictionary.begin(); it != dictionary.end(); it++)
+	{
+		dictionaryFile << it->first << ":" << it->second << endl;
 	}
 
 	return true;
