@@ -340,4 +340,78 @@ BOOST_FIXTURE_TEST_SUITE(car_with_engine_on, car_with_engine_on_)
 
 	BOOST_AUTO_TEST_SUITE_END();
 
+
+
+	struct on_second_gear_ : on_first_gear_
+	{
+		on_second_gear_()
+		{
+			car.SetSpeed(20);
+			car.SetGear(Gear::second);
+		}
+	};
+	
+	// на второй передаче
+	BOOST_FIXTURE_TEST_SUITE(on_second_gear, on_second_gear_)
+
+		// может разогнаться до 30 км в час
+		BOOST_AUTO_TEST_CASE(can_get_speed_up_to_50)
+	{
+		BOOST_CHECK(car.SetSpeed(20));
+		BOOST_CHECK_EQUAL(car.GetSpeed(), 20);
+
+		BOOST_CHECK(car.SetSpeed(37));
+		BOOST_CHECK_EQUAL(car.GetSpeed(), 37);
+
+		BOOST_CHECK(car.SetSpeed(50));
+		BOOST_CHECK_EQUAL(car.GetSpeed(), 50);
+	}
+
+	// не может разогнаться больше 50 км в час или меньше 20
+	BOOST_AUTO_TEST_CASE(can_not_get_speed_up_to_more_than_50_or_less_than_20)
+	{
+		BOOST_CHECK(!car.SetSpeed(10));
+		BOOST_CHECK_EQUAL(car.GetSpeed(), 20);
+
+		BOOST_CHECK(!car.SetSpeed(70));
+		BOOST_CHECK_EQUAL(car.GetSpeed(), 20);
+	}
+
+	// может переключиться на нейтральную передачу на скорости
+	BOOST_AUTO_TEST_CASE(can_shift_to_neutral_gear_with_speed_more_than_0)
+	{
+		car.SetSpeed(35);
+
+		BOOST_CHECK(car.SetGear(Gear::neutral));
+		BOOST_CHECK(car.GetGear() == Gear::neutral);
+	}
+
+	// не может переключиться на заднюю передачу
+	BOOST_AUTO_TEST_CASE(can_shift_to_reverse_gear_with_speed_0)
+	{
+		BOOST_CHECK(!car.SetGear(Gear::reverse));
+		BOOST_CHECK(car.GetGear() == Gear::second);
+	}
+
+	// может переключиться на третью передачу при скорости от 30
+	BOOST_AUTO_TEST_CASE(can_shift_to_third_gear_with_speed_more_than_30)
+	{
+		car.SetSpeed(45);
+
+		BOOST_CHECK(car.SetGear(Gear::third));
+		BOOST_CHECK(car.GetGear() == Gear::third);
+	}
+
+	// не может переключиться на третью передачу при скорости меньше 30
+	BOOST_AUTO_TEST_CASE(can_not_shift_to_third_gear_with_speed_less_than_30)
+	{
+		car.SetSpeed(25);
+
+		BOOST_CHECK(!car.SetGear(Gear::third));
+		BOOST_CHECK(car.GetGear() == Gear::second);
+	}
+
+	BOOST_AUTO_TEST_SUITE_END();
+
+
 BOOST_AUTO_TEST_SUITE_END();
