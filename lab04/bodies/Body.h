@@ -1,4 +1,10 @@
 #pragma once
+#include <memory>
+
+class CBody;
+typedef std::shared_ptr<CBody> BodyPtr;
+typedef std::vector<BodyPtr> BodyPtrVector;
+
 class CBody
 {
 public:
