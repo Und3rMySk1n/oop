@@ -2,8 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "Parallelepiped.h"
-#include <iostream>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
