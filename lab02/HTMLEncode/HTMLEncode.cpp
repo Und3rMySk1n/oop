@@ -5,13 +5,22 @@
 #include <iostream>
 #include "HTMLUtils.h"
 
+using namespace std;
+
 int main(int argc, char* argv[])
 {
-	std::string inputString;
-	std::getline(std::cin, inputString);
+	string inputString;	
 
-	std::string outputString = HtmlEncode(inputString);
-	std::cout << outputString;
+	while (!cin.eof())
+	{
+		getline(cin, inputString);
+
+		string outputString;
+		outputString.reserve(inputString.size());
+		outputString = HtmlEncode(inputString);
+
+		cout << outputString << endl;
+	}	
 
 	return 0;
 }

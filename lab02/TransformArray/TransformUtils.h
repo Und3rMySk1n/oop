@@ -3,4 +3,4 @@
 
 using namespace std;
 
-bool MultiplyElementsWithMinimum(vector<double> &numbers);
+void MultiplyElementsWithMinimum(vector<double> &numbers);
