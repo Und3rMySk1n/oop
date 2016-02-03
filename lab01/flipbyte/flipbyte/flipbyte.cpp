@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string>
 #include <limits>
+#include <cstdint>
 
 using namespace std;
 
@@ -9,41 +10,29 @@ using namespace std;
 //2. atol -> atoi (чтобы е преобразовывать из long в int
 //3. вместо int использовать int8t
 
-enum status
+int8_t GetNumberFromString(char *inputNumberString)
 {
-	OK, ERROR
-};
+	char numberToFlip = atoi(inputNumberString);
 
-int GetNumberFromString(char *inputNumberString, status &statusCode)
-{
-	char *endOfString = NULL;
-	int numberToFlip = strtol(inputNumberString, &endOfString, 10);
-	if (*endOfString != NULL)
-	{
-		cout << "You should enter a number without letters." << endl;
-		statusCode = ERROR;
-		return 0;
-	}
-	else if ((numberToFlip < 0) || (numberToFlip > 255))
+	if ((numberToFlip < 0) || (numberToFlip > 255))
 	{
 		cout << "The number must be from 0 to 255." << endl;
-		statusCode = ERROR;
 		return 0;
 	}
 
 	return numberToFlip;
 }
 
-int FlipByte(int numberToFlip, int bitsNumber)
+int8_t FlipByte(int8_t numberToFlip)
 {	
-	int flippedNumber = 0;
+	int8_t flippedNumber = 0;
 
-	for (int i = 0; i < bitsNumber; i++)
+	for (char i = 0; i < 8; i++)
 	{
-		int bit = 1 << i;
+		char bit = 1 << i;
 		bit = bit & numberToFlip;
 		
-		int shift = (bitsNumber - 1) - (2 * i);
+		char shift = (8 - 1) - (2 * i);
 		bit = (shift > 0) ? bit << shift : bit >> shift * (-1);	
 
 		flippedNumber = flippedNumber | bit;
@@ -65,19 +54,9 @@ int main(int argc, char* argv[])
 	}
 	
 	char *inputNumberString = argv[1];
-	const int bitsNumber = 8;
-	status statusCode = OK;
-
-	int numberToFlip = GetNumberFromString(inputNumberString, statusCode);
-	if (statusCode == OK)
-	{
-		int flippedNumber = FlipByte(numberToFlip, bitsNumber);
-		cout << flippedNumber << endl;
-	}
-	else
-	{
-		return 1;
-	}
+	int8_t numberToFlip = GetNumberFromString(inputNumberString);
+	int8_t flippedNumber = FlipByte(numberToFlip);
+	cout << flippedNumber << endl;	
 	
 	return 0;
 }

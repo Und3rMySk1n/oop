@@ -1,24 +1,29 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <array>
 
-void printSquareMatrix(vector<vector<int>> &matrixToPrint, const int &matrixSize);
+typedef std::array<double, 3> matrix3;
+typedef std::array<matrix3, 3> matrix33;
 
-void printSquareMatrixTypeDouble(vector<vector<double>> &matrixToPrint, const int &matrixSize);
+typedef std::array<double, 2> matrix2;
+typedef std::array<matrix2, 2> matrix22;
 
-int FindDeterminantForMatrix_2x2(vector<vector<int>> &matrixTwoOnTwo);
 
-vector<vector<int>> FindRestOfMatrix(vector<vector<int>> &matrixToFindRest, int matrixSize, int thisString, int thisColumn);
+void PrintSquareMatrix_3x3(const matrix33 &matrixToPrint);
 
-int FindDeterminantForMatrix_3x3(vector<vector<int>> &matrixThreeOnThree);
+int FindDeterminantForMatrix_2x2(const matrix22 &matrixTwoOnTwo);
 
-void defineSingleOneMatrix(vector<vector<int>> &matrixToDefine, const int &matrixSize);
+double FindDeterminantForMatrix_3x3(const matrix33 &matrixThreeOnThree);
 
-vector<vector<int>> FindMinorMatrix_3x3(vector<vector<int>> &matrixToFindMinor);
+double FindDeterminantForRestMatrix_3x3(const matrix33 &matrixToFindRest, int thisString, int thisColumn);
 
-vector<vector<int>> FindAdditionMatrix_3x3(vector<vector<int>> &matrixToFindAddition);
+matrix33 FindMinorMatrix_3x3(const matrix33 &matrixToFindMinor);
 
-vector<vector<int>> FindTransposedSquareMatrix(vector<vector<int>> &matrixToTranspose, const int &matrixSize);
+matrix33 FindAdditionMatrix_3x3(const matrix33 &matrixToFindAddition);
 
-vector<vector<double>> FindInverseMatrix_3x3(vector<vector<int>> &matrixToInvert, const int &determinant);
+matrix33 FindTransposedMatrix_3x3(const matrix33 &matrixToTranspose);
+
+matrix33 FindInverseMatrix_3x3(const matrix33 &matrixToInvert, const double &determinant);

@@ -3,18 +3,17 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include <iomanip>
 #include "MatrixUtils.h"
 
 using namespace std;
-// именование функций - UpperCamelCase
-// разбить InvertMatrix на несколько функций
-// SingleOneMatrix - переименовать в IdentityMatrix
-// Вместо вектора использовать двумерный массив
-// Если матрица не изменяется в функции - передавать ее по константной ссылке
-// Задать typedef'ы для матриц
-// Функцию распечатки матрицы - сделать менее универсальной, не передавать размер
+// именование функций - UpperCamelCase +
+// разбить InvertMatrix на несколько функций +
+// SingleOneMatrix - переименовать в IdentityMatrix +
+// Вместо вектора использовать двумерный массив +
+// Если матрица не изменяется в функции - передавать ее по константной ссылке +
+// Задать typedef'ы для матриц +
+// Функцию распечатки матрицы - сделать менее универсальной, не передавать размер +
 
 
 enum status
@@ -22,7 +21,7 @@ enum status
 	OK, INPUT_FILE_NOT_OPENED, READ_ERROR, DETERMINANT_ZERO
 };
 
-void printError(status &statusCode)
+void PrintError(status &statusCode)
 {
 	switch (statusCode)
 	{
@@ -42,19 +41,22 @@ void printError(status &statusCode)
 	}
 }
 
-bool invertMatrix(const string &inputFileName, status &statusCode)
+bool OpenInputFile(const string &inputFileName, ifstream &inputFile, status &statusCode)
 {
-	ifstream inputFile(inputFileName);
+	inputFile.open(inputFileName, ifstream::in);
 	if (!inputFile.is_open())
 	{
 		statusCode = INPUT_FILE_NOT_OPENED;
 		return false;
 	}
 
-	vector<vector<int>> matrix(3, vector<int>(3));
-	vector<vector<int>> singleOneMatrix(3, vector<int>(3));	
-	defineSingleOneMatrix(singleOneMatrix, 3);	
-	
+	return true;
+}
+
+matrix33 ReadMatrixFromFile(ifstream &inputFile)
+{	
+	matrix33 matrix;
+
 	while (!inputFile.eof())
 	{
 		char letter;
@@ -85,24 +87,25 @@ bool invertMatrix(const string &inputFileName, status &statusCode)
 				}
 			}
 		}
-	}	
+	}		
 
-	int determinant = FindDeterminantForMatrix_3x3(matrix);
+	return matrix;
+}
+
+matrix33 GetInvertMatrix(matrix33 &matrix, status &statusCode)
+{
+	matrix33 inverseMatrix;
+	double determinant = FindDeterminantForMatrix_3x3(matrix);
 	if (determinant == 0)
 	{
 		statusCode = DETERMINANT_ZERO;
-		return false;
 	}
 	else
-	{
-		vector<vector<double>> inverseMatrix(3, vector<double>(3));
-		inverseMatrix = FindInverseMatrix_3x3(matrix, determinant);
-
-		printSquareMatrixTypeDouble(inverseMatrix, 3);
-		cout << endl;
+	{		
+		inverseMatrix = FindInverseMatrix_3x3(matrix, determinant);		
 	}
 
-	return true;
+	return inverseMatrix;
 }
 
 int main(int argc, char* argv[])
@@ -117,12 +120,27 @@ int main(int argc, char* argv[])
 		cout << "This program inverts input matrix." << endl;
 	}
 
+	ifstream inputFile;
 	status statusCode = OK;
-	if (!invertMatrix(argv[1], statusCode))
+	if (!OpenInputFile(argv[1], inputFile, statusCode))
 	{
-		printError(statusCode);
+		PrintError(statusCode);
 		return 1;
 	}
+
+	matrix33 matrix = ReadMatrixFromFile(inputFile);
+	matrix33 inverseMatrix = GetInvertMatrix(matrix, statusCode);
+
+	if (statusCode != DETERMINANT_ZERO)
+	{
+		PrintSquareMatrix_3x3(inverseMatrix);
+		cout << endl;
+	}
+	else
+	{
+		PrintError(statusCode);
+		return 1;
+	}	
 
 	return 0;
 }

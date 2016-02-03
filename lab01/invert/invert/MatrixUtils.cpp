@@ -5,23 +5,11 @@
 
 using namespace std;
 
-void printSquareMatrix(vector<vector<int>> &matrixToPrint, const int &matrixSize)
+void PrintSquareMatrix_3x3(const matrix33 &matrixToPrint)
 {
-	for (int i = 0; i < matrixSize; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0; j < matrixSize; j++)
-		{
-			cout << "[" << i << "][" << j << "] = " << matrixToPrint[i][j] << " ";
-		}
-		cout << endl;
-	}
-}
-
-void printSquareMatrixTypeDouble(vector<vector<double>> &matrixToPrint, const int &matrixSize)
-{
-	for (int i = 0; i < matrixSize; i++)
-	{
-		for (int j = 0; j < matrixSize; j++)
+		for (int j = 0; j < 3; j++)
 		{
 			cout << "[" << i << "][" << j << "] = ";
 			cout << setprecision(3) << fixed << matrixToPrint[i][j];
@@ -31,24 +19,15 @@ void printSquareMatrixTypeDouble(vector<vector<double>> &matrixToPrint, const in
 	}
 }
 
-int FindDeterminantForMatrix_2x2(vector<vector<int>> &matrixTwoOnTwo)
+double FindDeterminantForRestMatrix_3x3(const matrix33 &matrixToFindRest, int thisString, int thisColumn)
 {
-	int determinant = (matrixTwoOnTwo[0][0] * matrixTwoOnTwo[1][1]) -
-		(matrixTwoOnTwo[0][1] * matrixTwoOnTwo[1][0]);
-
-	return determinant;
-}
-
-vector<vector<int>> FindRestOfMatrix(vector<vector<int>> &matrixToFindRest, int matrixSize, int thisString, int thisColumn)
-{
-	int restMatrixSize = matrixSize - 1;
-	vector<vector<int>> restMatrix(restMatrixSize, vector<int>(restMatrixSize));
+	matrix22 restMatrix;
 	int m = 0;
 	int n = 0;
 
-	for (int i = 0; i < matrixSize; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0; j < matrixSize; j++)
+		for (int j = 0; j < 3; j++)
 		{
 			if ((i != thisString) && (j != thisColumn))
 			{
@@ -56,7 +35,7 @@ vector<vector<int>> FindRestOfMatrix(vector<vector<int>> &matrixToFindRest, int 
 				restMatrix[m][n] = matrixToFindRest[i][j];
 				n++;
 
-				if (n == restMatrixSize)
+				if (n == 2)
 				{
 					n = 0;
 					m++;
@@ -65,65 +44,48 @@ vector<vector<int>> FindRestOfMatrix(vector<vector<int>> &matrixToFindRest, int 
 		}
 	}
 
-	return restMatrix;
+	double determinant = (restMatrix[0][0] * restMatrix[1][1]) -
+		(restMatrix[0][1] * restMatrix[1][0]);
+
+	return determinant;
 }
 
-int FindDeterminantForMatrix_3x3(vector<vector<int>> &matrixThreeOnThree)
+double FindDeterminantForMatrix_3x3(const matrix33 &matrixThreeOnThree)
 {
-	int determinant = 0;
+	double determinant = 0;
 	int thisString = 0; //Ќаходим детерминант по первой строке
 	int summarySign = 1;
 
 	for (int thisColumn = 0; thisColumn < 3; thisColumn++)
 	{
-		vector<vector<int>> matrixTwoOnTwo(2, vector<int>(2));
-		matrixTwoOnTwo = FindRestOfMatrix(matrixThreeOnThree, 3, thisString, thisColumn);
+		double smallDeterminant = FindDeterminantForRestMatrix_3x3(matrixThreeOnThree, thisString, thisColumn);
 
-		determinant += matrixThreeOnThree[thisString][thisColumn] * FindDeterminantForMatrix_2x2(matrixTwoOnTwo) * summarySign;
+		determinant += matrixThreeOnThree[thisString][thisColumn] * smallDeterminant * summarySign;
 		summarySign = summarySign * (-1);
 	}
 
 	return determinant;
 }
 
-void defineSingleOneMatrix(vector<vector<int>> &matrixToDefine, const int &matrixSize)
+matrix33 FindMinorMatrix_3x3(const matrix33 &matrixToFindMinor)
 {
-	for (int i = 0; i < matrixSize; i++)
-	{
-		for (int j = 0; j < matrixSize; j++)
-		{
-			if (i == j)
-			{
-				matrixToDefine[i][j] = 1;
-			}
-			else
-			{
-				matrixToDefine[i][j] = 0;
-			}
-		}
-	}
-}
-
-vector<vector<int>> FindMinorMatrix_3x3(vector<vector<int>> &matrixToFindMinor)
-{
-	vector<vector<int>> smallMatrix(2, vector<int>(2));
-	vector<vector<int>> minorMatrix(3, vector<int>(3));
+	matrix33 minorMatrix;
 
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			smallMatrix = FindRestOfMatrix(matrixToFindMinor, 3, i, j);
-			minorMatrix[i][j] = FindDeterminantForMatrix_2x2(smallMatrix);
+			double smallDeterminant = FindDeterminantForRestMatrix_3x3(matrixToFindMinor, i, j);
+			minorMatrix[i][j] = smallDeterminant;
 		}
 	}
 
 	return minorMatrix;
 }
 
-vector<vector<int>> FindAdditionMatrix_3x3(vector<vector<int>> &matrixToFindAddition)
+matrix33 FindAdditionMatrix_3x3(const matrix33 &matrixToFindAddition)
 {
-	vector<vector<int>> additionMatrix(3, vector<int>(3));
+	matrix33 additionMatrix;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -143,13 +105,13 @@ vector<vector<int>> FindAdditionMatrix_3x3(vector<vector<int>> &matrixToFindAddi
 	return additionMatrix;
 }
 
-vector<vector<int>> FindTransposedSquareMatrix(vector<vector<int>> &matrixToTranspose, const int &matrixSize)
+matrix33 FindTransposedMatrix_3x3(const matrix33 &matrixToTranspose)
 {
-	vector<vector<int>> transposedMatrix(matrixSize, vector<int>(matrixSize));
+	matrix33 transposedMatrix;
 
-	for (int i = 0; i < matrixSize; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0; j < matrixSize; j++)
+		for (int j = 0; j < 3; j++)
 		{
 			transposedMatrix[i][j] = matrixToTranspose[j][i];
 		}
@@ -158,23 +120,18 @@ vector<vector<int>> FindTransposedSquareMatrix(vector<vector<int>> &matrixToTran
 	return transposedMatrix;
 }
 
-vector<vector<double>> FindInverseMatrix_3x3(vector<vector<int>> &matrixToInvert, const int &determinant)
+matrix33 FindInverseMatrix_3x3(const matrix33 &matrixToInvert, const double &determinant)
 {
-	vector<vector<int>> minorMatrix(3, vector<int>(3));
-	minorMatrix = FindMinorMatrix_3x3(matrixToInvert);
+	matrix33 minorMatrix = FindMinorMatrix_3x3(matrixToInvert);
+	matrix33 additionMatrix = FindAdditionMatrix_3x3(minorMatrix);
+	matrix33 transposedMatrix = FindTransposedMatrix_3x3(additionMatrix);
 
-	vector<vector<int>> additionMatrix(3, vector<int>(3));
-	additionMatrix = FindAdditionMatrix_3x3(minorMatrix);
-
-	vector<vector<int>> transposedMatrix(3, vector<int>(3));
-	transposedMatrix = FindTransposedSquareMatrix(additionMatrix, 3);
-
-	vector<vector<double>> inverseMatrix(3, vector<double>(3));
+	matrix33 inverseMatrix;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			inverseMatrix[i][j] = ((double)transposedMatrix[i][j]) / (double)determinant;
+			inverseMatrix[i][j] = (transposedMatrix[i][j]) / determinant;
 		}
 	}
 
