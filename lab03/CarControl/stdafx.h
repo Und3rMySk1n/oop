@@ -9,7 +9,8 @@
 
 #include <stdio.h>
 #include <tchar.h>
-
+#include <map>
+#include <stdexcept>
 
 
 // TODO: reference additional headers your program requires here

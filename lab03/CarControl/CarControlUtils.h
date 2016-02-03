@@ -5,6 +5,12 @@
 
 void ShowInfo(CCar const &car);
 
-bool SetEngineOn(CCar &car);
+void ProcessCommand(std::string &userCommand, CCar &car);
 
-bool SetEngineOff(CCar &car);
+void ProcessEngineOffCommand(CCar &car);
+
+void ProcessEngineOnCommand(CCar &car);
+
+void ProcessSetGearCommand(std::string &userCommand, CCar &car);
+
+void ProcessSetSpeedCommand(std::string &userCommand, CCar &car);

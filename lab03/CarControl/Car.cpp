@@ -76,46 +76,13 @@ bool CCar::IsSpeedAllowedForGear(int const speed, Gear const gear)
 
 bool CCar::SetGear(Gear newGear)
 {
-	Gear currentGear = GetGear();
-	Direction currentDirection = GetDirection();
-	int currentSpeed = GetSpeed();
-
 	if (IsEngineOn())
 	{
-		if (currentGear == newGear)
+		if (CheckSpeedForEngineOn(newGear))
 		{
-			return true;
-		}
-
-		switch (newGear)
-		{
-		case Gear::reverse:
-			if (((currentGear == Gear::neutral) || (currentGear == Gear::first)) && (currentSpeed == 0))
-			{
-				m_gear = newGear;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-			break;
-		case Gear::neutral:
 			m_gear = newGear;
 			return true;
-			break;
-		default:
-			if ((currentDirection != Direction::backward) && (IsSpeedAllowedForGear(currentSpeed, newGear)))
-			{
-				m_gear = newGear;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-			break;
-		}
+		}		
 	}
 	else
 	{
@@ -123,12 +90,10 @@ bool CCar::SetGear(Gear newGear)
 		{
 			m_gear = newGear;
 			return true;
-		}
-		else
-		{
-			return false;
-		}
+		}		
 	}
+
+	return false;
 }
 
 bool CCar::SetSpeed(int newSpeed)
@@ -159,4 +124,36 @@ bool CCar::SetSpeed(int newSpeed)
 	}
 
 	return true;
+}
+
+bool CCar::CheckSpeedForEngineOn(Gear newGear)
+{
+	Direction currentDirection = GetDirection();
+	int currentSpeed = GetSpeed();
+	Gear currentGear = GetGear();
+
+	if (currentGear == newGear)
+	{
+		return true;
+	}
+
+	if (newGear == Gear::reverse)		
+	{
+		if (((currentGear == Gear::neutral) || (currentGear == Gear::first)) &&
+			(currentSpeed == 0))
+		{
+			return true;
+		}		
+	}	
+	else if (newGear == Gear::neutral)
+	{
+		return true;
+	}
+	else if ((currentDirection != Direction::backward) && 
+		(IsSpeedAllowedForGear(currentSpeed, newGear)))
+	{
+		return true;
+	}
+
+	return false;
 }

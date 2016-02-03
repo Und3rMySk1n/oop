@@ -26,9 +26,7 @@ public:
 	struct allowedSpeedRange
 	{
 		int minSpeed, maxSpeed;
-	};
-
-	static const std::map<Gear, allowedSpeedRange> gearSpeedRange;
+	};	
 
 	bool IsEngineOn() const;
 	Gear GetGear() const;
@@ -44,5 +42,9 @@ private:
 	Gear m_gear = Gear::neutral;
 	int m_speed = 0;
 	Direction m_direction = Direction::stop;
-	bool IsSpeedAllowedForGear(int speed, Gear gear);
+
+	static bool IsSpeedAllowedForGear(int speed, Gear gear);
+	bool CheckSpeedForEngineOn(Gear newGear);
+
+	static const std::map<Gear, allowedSpeedRange> gearSpeedRange;
 };

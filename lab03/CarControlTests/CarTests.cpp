@@ -320,6 +320,15 @@ BOOST_FIXTURE_TEST_SUITE(car_with_engine_on, car_with_engine_on_)
 			BOOST_CHECK(car.GetGear() == Gear::reverse);
 		}
 
+		// не может переключиться на заднюю передачу на скорости
+		BOOST_AUTO_TEST_CASE(can_not_shift_to_reverse_gear_with_speed_10)
+		{
+			car.SetSpeed(10);
+
+			BOOST_CHECK(!car.SetGear(Gear::reverse));
+			BOOST_CHECK(car.GetGear() == Gear::first);
+		}
+
 		// может переключиться на вторую передачу при скорости от 20
 		BOOST_AUTO_TEST_CASE(can_shift_to_second_gear_with_speed_more_than_20)
 		{
