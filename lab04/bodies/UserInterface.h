@@ -8,8 +8,24 @@
 #include "Cone.h"
 #include "Cylinder.h"
 
-bool ProcessCommand(std::string const & command, std::istream & is);
+bool ProcessCommand(std::string &commandLine, BodyPtrVector &bodiesVector);
 
-void AddBody(std::istream & is, BodyPtrVector &bodiesVector);
+void ShowBodies(BodyPtrVector &bodiesVector);
 
-BodyPtr CreateSphere(std::vector<double> &args);
+BodyPtr GetHeaviestBody(BodyPtrVector &bodiesVector);
+
+BodyPtr GetLightestInWater(BodyPtrVector &bodiesVector);
+
+void AddBody(std::string &commandLine, BodyPtrVector &bodiesVector);
+
+std::string CutParamFromString(std::string &commandLine);
+
+double GetMassInWater(BodyPtr const &body);
+
+bool AddSphere(std::string &commandLine, BodyPtrVector &bodiesVector);
+
+bool AddCone(std::string &commandLine, BodyPtrVector &bodiesVector);
+
+bool AddParallelepiped(std::string &commandLine, BodyPtrVector &bodiesVector);
+
+bool AddCylinder(std::string &commandLine, BodyPtrVector &bodiesVector);

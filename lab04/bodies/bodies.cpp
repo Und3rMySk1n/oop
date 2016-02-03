@@ -9,21 +9,25 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {	
-	string command = "";
+	string commandLine;
+	BodyPtrVector bodiesVector;
 	
 	cout << "Available commands:" << endl 
 	 	 << " create <body type> <args> - creates body" << endl
 		 << " show - shows all bodies" << endl
+		 << " showMax - shows heaviest body" << endl
+		 << " showLightest - shows lightest body in water" << endl
 		 << " exit - exits from dialogue" << endl << endl;
 
-	cin >> command;
-	while (command != "exit")
+	getline(cin, commandLine);
+	while (commandLine != "exit")
 	{
-		if (!ProcessCommand(command, cin))
+		if (!ProcessCommand(commandLine, bodiesVector))
 		{
 			cout << "Enter correct command" << endl;
 		}
-		cin >> command;
+
+		getline(cin, commandLine);
 	}
 
 	return 0;

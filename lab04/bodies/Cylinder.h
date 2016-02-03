@@ -4,7 +4,7 @@ class CCylinder :
 	public CSolidBody
 {
 public:
-	CCylinder(double density, double radius, double height);;
+	CCylinder(double density, double radius, double height);
 
 	double GetRadius() const;
 	double GetHeight() const;
