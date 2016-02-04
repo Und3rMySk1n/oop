@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLEncode", "HTMLEncode\HT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dictionary", "Dictionary\Dictionary.vcxproj", "{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExpandTemplate", "ExpandTemplate\ExpandTemplate.vcxproj", "{E6763409-B73E-4867-A76D-F8A8777C62BF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExpandTemplateTests", "ExpandTemplateTests\ExpandTemplateTests.vcxproj", "{BC6E28FD-ACA5-40FE-8D82-78CAE9FB05DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +37,14 @@ Global
 		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Debug|Win32.Build.0 = Debug|Win32
 		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Release|Win32.ActiveCfg = Release|Win32
 		{9264B159-39BE-4C46-B0E0-837E5B8F1B2F}.Release|Win32.Build.0 = Release|Win32
+		{E6763409-B73E-4867-A76D-F8A8777C62BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E6763409-B73E-4867-A76D-F8A8777C62BF}.Debug|Win32.Build.0 = Debug|Win32
+		{E6763409-B73E-4867-A76D-F8A8777C62BF}.Release|Win32.ActiveCfg = Release|Win32
+		{E6763409-B73E-4867-A76D-F8A8777C62BF}.Release|Win32.Build.0 = Release|Win32
+		{BC6E28FD-ACA5-40FE-8D82-78CAE9FB05DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC6E28FD-ACA5-40FE-8D82-78CAE9FB05DE}.Debug|Win32.Build.0 = Debug|Win32
+		{BC6E28FD-ACA5-40FE-8D82-78CAE9FB05DE}.Release|Win32.ActiveCfg = Release|Win32
+		{BC6E28FD-ACA5-40FE-8D82-78CAE9FB05DE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
