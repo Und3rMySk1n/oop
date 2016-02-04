@@ -115,7 +115,7 @@ void ProcessSetGearCommand(string &userCommand, CCar &car)
 			cout << "You can't shift gear to " << userCommand << endl;
 		}
 	}
-	catch (const out_of_range)
+	catch (out_of_range)
 	{
 		cout << "Enter valid gear name." << endl;
 	}
@@ -138,7 +138,7 @@ void ProcessSetSpeedCommand(string &userCommand, CCar &car)
 			cout << "You can't set speed " << newSpeed << " now." << endl;
 		}
 	}
-	catch (const invalid_argument)
+	catch (invalid_argument)
 	{
 		cout << "Enter valid speed." << endl;
 	}
