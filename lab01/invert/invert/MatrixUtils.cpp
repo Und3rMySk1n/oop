@@ -10,8 +10,7 @@ void PrintSquareMatrix_3x3(const matrix33 &matrixToPrint)
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
-		{
-			cout << "[" << i << "][" << j << "] = ";
+		{			
 			cout << setprecision(3) << fixed << matrixToPrint[i][j];
 			cout << " ";
 		}

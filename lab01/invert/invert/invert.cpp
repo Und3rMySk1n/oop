@@ -94,8 +94,9 @@ matrix33 ReadMatrixFromFile(ifstream &inputFile)
 
 matrix33 GetInvertMatrix(matrix33 &matrix, status &statusCode)
 {
-	matrix33 inverseMatrix;
+	matrix33 inverseMatrix = {0};
 	double determinant = FindDeterminantForMatrix_3x3(matrix);
+
 	if (determinant == 0)
 	{
 		statusCode = DETERMINANT_ZERO;
