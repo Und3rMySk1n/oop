@@ -35,8 +35,5 @@
     <ClCompile Include="task2_myArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

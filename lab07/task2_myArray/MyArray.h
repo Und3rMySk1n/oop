@@ -1,20 +1,65 @@
 #pragma once
 
+template <typename T>
 class CMyArray
 {
 public:
-	CMyArray();
+	CMyArray()
+	{
+		m_begin = (T*)malloc((sizeof(T)));
+	}
 
-	size_t GetSize() const;
-	int GetElement(size_t numOfElement) const;
+	size_t GetSize() const
+	{
+		return m_size;
+	}
+
+	T GetElement(size_t numOfElement) const;
 	
-	bool AddElement(int element);
-	bool Clear();
+	bool AddElement(T element)
+	{
+		T* newBegin = NULL;
+		size_t elementPosition = GetSize();
+		newBegin = (T*)realloc(m_begin, sizeof(T) * (elementPosition + 1));
 
-	int& operator[](size_t position);
+		if (newBegin != NULL) {
+			m_begin = newBegin;
+		}
+		else {
+			free(m_begin);
+			return false;
+		}
 
-	~CMyArray();
+		m_begin[elementPosition] = element;
+		m_size++;
+
+		return true;
+	}
+
+	bool Clear()
+	{
+		free(m_begin);
+		m_begin = (T*)malloc((sizeof(T)));
+		m_size = 0;
+
+		return true;
+	}
+
+	T& operator[](size_t position)
+	{
+		if (position >= GetSize())
+		{
+			throw std::out_of_range("Element is out of range.");
+		}
+
+		return m_begin[position];
+	}
+
+	~CMyArray()
+	{
+		free(m_begin);
+	}
 private:
 	size_t m_size = 0;
-	int *m_begin;
+	T *m_begin;
 };

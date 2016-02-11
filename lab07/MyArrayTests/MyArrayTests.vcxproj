@@ -92,7 +92,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\task2_myArray\MyArray.cpp" />
     <ClCompile Include="MyArrayClassTests.cpp" />
     <ClCompile Include="MyArrayTests.cpp" />
     <ClCompile Include="stdafx.cpp">

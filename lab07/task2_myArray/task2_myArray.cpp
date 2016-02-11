@@ -8,15 +8,15 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	CMyArray myArray;
+	CMyArray<double> myArray;
 
-	myArray.AddElement(1);
-	myArray.AddElement(2);
-	myArray.AddElement(3);
+	myArray.AddElement(1.005);
+	myArray.AddElement(2.15);
+	myArray.AddElement(3.56);
 	myArray.AddElement(4);
 	myArray.AddElement(5);
 
-	myArray[3] = 3333;
+	myArray[3] = 3333.223;
 
 	try
 	{
