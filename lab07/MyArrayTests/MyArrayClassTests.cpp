@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_SUITE_END()
 	BOOST_FIXTURE_TEST_SUITE(DoubleMyArray_when_created, DoubleMyArray_)
 
 		BOOST_AUTO_TEST_CASE(has_size_0)
-	{
-		BOOST_CHECK_EQUAL(myArray.GetSize(), 0);
-	}
+		{
+			BOOST_CHECK_EQUAL(myArray.GetSize(), 0);
+		}
 
 	BOOST_AUTO_TEST_CASE(can_be_filled_with_elements)
 	{
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_SUITE_END()
 		myArray.Clear();
 		BOOST_CHECK_EQUAL(myArray.GetSize(), 0);
 		BOOST_CHECK_THROW(myArray[0] = 5.26, std::out_of_range);
-		BOOST_CHECK_THROW(double x = myArray[10.23], std::out_of_range);
+		BOOST_CHECK_THROW(double x = myArray[10], std::out_of_range);
 	}
 
 	BOOST_AUTO_TEST_SUITE_END()

@@ -3,24 +3,25 @@
 
 #include "stdafx.h"
 #include "MyArray.h"
+#include <string>
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-	CMyArray<double> myArray;
+	CMyArray<string> myArray;
 
-	myArray.AddElement(1.005);
-	myArray.AddElement(2.15);
-	myArray.AddElement(3.56);
-	myArray.AddElement(4);
-	myArray.AddElement(5);
+	myArray.AddElement("One");
+	myArray.AddElement("Two");
+	myArray.AddElement("Three");
+	myArray.AddElement("Seven");
+	myArray.AddElement("Five");
 
-	myArray[3] = 3333.223;
+	myArray[3] = "Four";
 
 	try
 	{
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			cout << "Element [" << i << "] = " << myArray[i] << endl;
 		}

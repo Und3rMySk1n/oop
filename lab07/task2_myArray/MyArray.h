@@ -6,44 +6,49 @@ class CMyArray
 public:
 	CMyArray()
 	{
-		m_begin = (T*)malloc((sizeof(T)));
 	}
 
 	size_t GetSize() const
 	{
 		return m_size;
 	}
-
-	T GetElement(size_t numOfElement) const;
 	
-	bool AddElement(T element)
+	void AddElement(T const &element)
 	{
-		T* newBegin = NULL;
-		size_t elementPosition = GetSize();
-		newBegin = (T*)realloc(m_begin, sizeof(T) * (elementPosition + 1));
+		size_t currentSize = GetSize();
 
-		if (newBegin != NULL) {
-			m_begin = newBegin;
+		T* newBegin = nullptr;
+		
+		// такой способ не подходит, нельзя копировать объект побитово
+		newBegin = reinterpret_cast<T*>(realloc(m_begin, sizeof(T) * (currentSize + 1)));
+
+		if (newBegin != nullptr) 
+		{
+			m_begin = newBegin;			
 		}
-		else {
-			free(m_begin);
-			return false;
+		else 
+		{
+			throw std::bad_alloc();
 		}
 
-		m_begin[elementPosition] = element;
+		T *newElementPtr = new (m_begin + currentSize) T(element);
 		m_size++;
-
-		return true;
 	}
 
-	bool Clear()
+	void Clear()
 	{
-		free(m_begin);
-		m_begin = (T*)malloc((sizeof(T)));
-		m_size = 0;
+		if (GetSize() != 0)
+		{
+			for (size_t i = GetSize(); i-- != 0;)
+			{
+				m_begin[i].~T();
+			}
 
-		return true;
-	}
+			
+			m_size = 0;
+		}
+		
+	}	
 
 	T& operator[](size_t position)
 	{
@@ -55,11 +60,29 @@ public:
 		return m_begin[position];
 	}
 
+	T& operator[](size_t position) const
+	{
+		if (position >= GetSize())
+		{
+			throw std::out_of_range("Element is out of range.");
+		}
+
+		return m_begin[position];
+	}
+
 	~CMyArray()
 	{
+		if (GetSize() != 0)
+		{
+			for (size_t i = GetSize(); i-- != 0;)
+			{
+				m_begin[i].~T();
+			}
+		}
+		
 		free(m_begin);
 	}
 private:
 	size_t m_size = 0;
-	T *m_begin;
+	T *m_begin = nullptr;
 };

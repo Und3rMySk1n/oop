@@ -12,7 +12,7 @@
 #include <iostream>
 #include <memory>
 #include <memory.h>
-
+#include <new>
 
 
 // TODO: reference additional headers your program requires here
