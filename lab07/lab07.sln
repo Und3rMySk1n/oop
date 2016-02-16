@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindMax", "FindMax\FindMax.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindMaxTests", "FindMaxTests\FindMaxTests.vcxproj", "{3CCEF74E-27C4-4D1E-97CE-632675FDCA3E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindMaxEx", "FindMaxEx\FindMaxEx.vcxproj", "{26421829-387D-4487-BE13-689DAA0FCA68}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindMaxExTests", "FindMaxExTests\FindMaxExTests.vcxproj", "{2ACD9BF3-A30D-4997-9E82-7A46C659E2E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +37,14 @@ Global
 		{3CCEF74E-27C4-4D1E-97CE-632675FDCA3E}.Debug|Win32.Build.0 = Debug|Win32
 		{3CCEF74E-27C4-4D1E-97CE-632675FDCA3E}.Release|Win32.ActiveCfg = Release|Win32
 		{3CCEF74E-27C4-4D1E-97CE-632675FDCA3E}.Release|Win32.Build.0 = Release|Win32
+		{26421829-387D-4487-BE13-689DAA0FCA68}.Debug|Win32.ActiveCfg = Debug|Win32
+		{26421829-387D-4487-BE13-689DAA0FCA68}.Debug|Win32.Build.0 = Debug|Win32
+		{26421829-387D-4487-BE13-689DAA0FCA68}.Release|Win32.ActiveCfg = Release|Win32
+		{26421829-387D-4487-BE13-689DAA0FCA68}.Release|Win32.Build.0 = Release|Win32
+		{2ACD9BF3-A30D-4997-9E82-7A46C659E2E2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2ACD9BF3-A30D-4997-9E82-7A46C659E2E2}.Debug|Win32.Build.0 = Debug|Win32
+		{2ACD9BF3-A30D-4997-9E82-7A46C659E2E2}.Release|Win32.ActiveCfg = Release|Win32
+		{2ACD9BF3-A30D-4997-9E82-7A46C659E2E2}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
