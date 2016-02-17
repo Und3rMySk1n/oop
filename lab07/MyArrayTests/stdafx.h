@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <tchar.h>
+#include <string>
 
 #include <boost/algorithm/string/replace.hpp>
 
