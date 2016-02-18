@@ -9,18 +9,18 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	CMyArray<string> myArray;
-
-	myArray.AddElement("One");
-	myArray.AddElement("Two");
-	myArray.AddElement("Three");
-	myArray.AddElement("Seven");
-	myArray.AddElement("Five");
-
-	myArray[3] = "Four";
+	CMyArray<string> myArray;	
 
 	try
 	{
+		myArray.AddElement("One");
+		myArray.AddElement("Two");
+		myArray.AddElement("Three");
+		myArray.AddElement("Seven");
+		myArray.AddElement("Five");
+
+		myArray[3] = "Four";
+
 		for (int i = 0; i < 5; i++)
 		{
 			cout << "Element [" << i << "] = " << myArray[i] << endl;
