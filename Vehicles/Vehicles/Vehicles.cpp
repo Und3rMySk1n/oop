@@ -13,15 +13,24 @@ public:
 	{
 		cout << "Moving " << distance << " km" << endl;
 	}
+
+	virtual ~CVehicle()
+	{
+	};
 };
 
 class CFlyingVehicle 
 	: public CVehicle
 {
 public:
-	virtual void Move(unsigned int distance) const
+	void Fly(unsigned int distance) const
 	{
 		cout << "Flying " << distance << " km" << endl;
+	}
+
+	virtual void Move(unsigned int distance) const
+	{
+		Fly(distance);
 	}
 };
 
@@ -29,9 +38,14 @@ class CSailingVehicle
 	: public CVehicle
 {
 public:
-	virtual void Move(unsigned int distance) const
+	void Sail(unsigned int distance) const
 	{
 		cout << "Sailing " << distance << " km" << endl;
+	}
+
+	virtual void Move(unsigned int distance) const
+	{
+		Sail(distance);
 	}
 };
 
@@ -39,9 +53,14 @@ class CRidingVehicle
 	: public CVehicle
 {
 public:
-	virtual void Move(unsigned int distance) const
+	void Ride(unsigned int distance) const
 	{
 		cout << "Riding " << distance << " km" << endl;
+	}
+
+	virtual void Move(unsigned int distance) const
+	{
+		Ride(distance);
 	}
 };
 
@@ -86,6 +105,8 @@ int main(int argc, char* argv[])
 	CBoat boat;
 	cout << "Boat: ";
 	boat.Move(25);
+	cout << "Boat using <Sail> method: ";
+	boat.Sail(75);
 
 	return 0;
 }
